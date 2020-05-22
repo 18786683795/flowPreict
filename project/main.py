@@ -15,11 +15,13 @@ from flow_compare import *
 #每天8点定时启动
 def main():
     schedule.every().day.at("02:00").do(actual_js)
-    schedule.every().day.at("04:00").do(foreacst_js) 
+    schedule.every().day.at("04:00").do(forecast_js) 
     schedule.every().day.at("08:00").do(compare_js)
     while True:
         schedule.run_pending()
-        time.sleep(20)
+        time.sleep(10)
         
 if __name__ == '__main__':
     main()
+    
+#wmic process where name="python.exe" list full

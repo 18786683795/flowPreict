@@ -62,11 +62,13 @@ def actual_js():
     #sql = "select number from t_transportation;"
     #point_list = pd.read_sql(sql,con)['number']
 
-    point_list = ['#GS001','#GS002','#GS004','#GS005','#GS006','#GS007','#GS008','#GS009','#GS010','#GS011','#GS012','#GS013','#GS015','#GS016',
-                  '#GS017','#GS023','#GS024','#GS027','#GS028','#GS031','#GS032','#GS033','#GS034','#GS035','#GS037','#GS038','#GS039','#GS041',
-                  '#GS043','#GS045','#GS047','#GS048','#GS049','#GS050','#GS051','#GS052','#GS057','#GS059','#GS060','#GS064','#GS065','#GS066',
-                  '#GS067','#GS068','#GS069']
+#    point_list = ['#GS001','#GS002','#GS004','#GS005','#GS006','#GS007','#GS008','#GS009','#GS010','#GS011','#GS012','#GS013','#GS015','#GS016',
+#                  '#GS017','#GS023','#GS024','#GS027','#GS028','#GS031','#GS032','#GS033','#GS034','#GS035','#GS037','#GS038','#GS039','#GS041',
+#                  '#GS043','#GS045','#GS047','#GS048','#GS049','#GS050','#GS051','#GS052','#GS057','#GS059','#GS060','#GS064','#GS065','#GS066',
+#                  '#GS067','#GS068','#GS069']
     
+    point_list =['#GS001','#GS002']
+                 
     #需要计算的日期（以下代码为上一周）
     date_list = [(datetime.datetime.now()+datetime.timedelta(days=-7)).strftime("%Y-%m-%d"),
                 (datetime.datetime.now()+datetime.timedelta(days=-6)).strftime("%Y-%m-%d"),
@@ -121,7 +123,7 @@ def actual_js():
     
             #如果实测流量小于预测流量的0.8，那么把实测总流量置空
             for l in range(len(df_flow['time_hour'])):
-                if df_flow['flow_all_x'][l] < int(df_flow['flow_all_y'][l])*0.8:
+                if df_flow['flow_all_x'][l] < df_flow['flow_all_y'][l]*0.8:
                     df_flow['flow_all_x'][l]=np.nan
             
             del df_flow['flow_all_y']
@@ -135,11 +137,14 @@ def actual_js():
             con = pymysql.connect('52.1.123.6','root','123456','keenIts')
             sql = "select DISTINCT(date) from t_transportation_flow_actual ORDER BY date desc limit 7;"
             databas_datelist = pd.read_sql(sql,con)['date']
+            print(databas_datelist)
             pred_datelist = date_processing()
+            print(pred_datelist)
             xt_rq = [x for x in databas_datelist if x in pred_datelist]
             bt_rq = [x for x in (str(databas_datelist)+str(pred_datelist)) if x not in xt_rq]
+            print(xt_rq)
             df_flow0 = df_flow[df_flow['date'].isin(bt_rq)]
-            
+            df_flow0.head()
     #        df_flow0.to_sql('t_transportation_flow_actual',engine,schema='keenIts',if_exists='append',index=False,index_label=False) 
 
 

@@ -20,7 +20,7 @@ engine = create_engine("mysql+pymysql://root:123456@52.1.123.6:3306/keenIts?char
 
 def date_processing():
     def rq_zh(d):
-        today = datetime.now() #取今天
+        today = datetime.datetime.now() #取今天
         yeday = (today + timedelta(days=d)).strftime("%Y-%m-%d")
         return yeday
     dats = []
@@ -171,7 +171,7 @@ def forecast_js():
                 forecast = forecast.append(df_forecast)
                 for cl in columns_list_keep:
                     forecast[cl]=forecast[cl].map(lambda x:x if str(x)=='nan' else int(x))
-            #将结果写入数据库表t_transportation_forecast_test1
+            #将结果写入数据库表t_transportation_flow_forecast
             print(forecast)
             
             con = pymysql.connect('52.1.123.6','root','123456','keenIts')
@@ -181,7 +181,7 @@ def forecast_js():
             xt_rq = [x for x in databas_datelist if x in pred_datelist]
             bt_rq = [x for x in (str(databas_datelist)+str(pred_datelist)) if x not in xt_rq]
             forecast0 = forecast[forecast['date'].isin(bt_rq)]
-            
+            forecast0.head()
     #        forecast0.to_sql('t_transportation_flow_forecast',engine,schema='keenIts',if_exists='append',index=False,index_label=False)
     timemi = (time.clock()-start)
     print("Time used:",timemi)

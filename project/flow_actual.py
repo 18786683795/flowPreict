@@ -1,3 +1,11 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon May 11 15:12:48 2020
+
+@author: Lenovo
+"""
+
+
 import pymysql
 import pandas as pd
 import numpy as np
@@ -59,7 +67,8 @@ def actual_js():
                   '#YY050','#YY051','#YY052','#YY053','#YY054','#YY055','#YY056','#YY057','#YY058','#YY059','#YY060','#YY061','#YY062','#YY063']
               
     #需要计算的日期
-    yeday = (datetime.datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d")
+    d1 = 1
+    yeday = (datetime.datetime.now() - timedelta(days=d1)).strftime("%Y-%m-%d")
     date_list = list( pd.date_range(start=yeday,periods=1).astype(str)) 
     
     df = []
@@ -114,4 +123,6 @@ def actual_js():
             df_flow.to_sql('t_transportation_flow_actual',engine,schema='keenIts',if_exists='append',index=False,index_label=False) 
 
 actual_js()
+
+
 
