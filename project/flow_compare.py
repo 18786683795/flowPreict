@@ -62,10 +62,15 @@ def compare_js():
             flow_compare[cl]=flow_compare[cl].map(lambda x:x if str(x)==None else round(x,7))
         flow_compares1.append(flow_compare)
         
-    flow_compares = pd.concat(flow_compares1)
-    flow_compares = flow_compares.replace(np.inf,np.nan)
-    #将结果写入数据库表t_transportation_flow_compare
-    flow_compares.to_sql('t_transportation_flow_compare',engine,schema='keenIts',if_exists='append',index=False,index_label=False)
+    try:
+        flow_compares = pd.concat(flow_compares1)
+    except ValueError:
+        print(" raise ValueError('No objects to concatenate')")
+    else:
+        print("objects to concatenate success")
+        flow_compares = flow_compares.replace(np.inf,np.nan)
+        #将结果写入数据库表t_transportation_flow_compare
+        flow_compares.to_sql('t_transportation_flow_compare',engine,schema='keenIts',if_exists='append',index=False,index_label=False)
 
 compare_js()
 

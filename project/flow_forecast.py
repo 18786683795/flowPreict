@@ -67,7 +67,7 @@ def forecast_js():
                   '#YY050','#YY051','#YY052','#YY053','#YY054','#YY055','#YY056','#YY057','#YY058','#YY059','#YY060','#YY061','#YY062','#YY063']
     
     #需要预测的日期
-    d1 = 7   #因为已经预测了一周的数据在数据库，因此每天计算第7天的数据即可保证有一周的预测数据
+    d1 = 6   #因为已经预测了一周的数据在数据库，因此每天计算第7天的数据即可保证有一周的预测数据,计数是从明天开始，所有第7天是6
     d = (datetime.datetime.now()+datetime.timedelta(days=d1)).strftime("%Y-%m-%d")
     #date_list = list(pd.date_range(start_date,periods=1).astype(str))[0]
     #for d in date_list:
